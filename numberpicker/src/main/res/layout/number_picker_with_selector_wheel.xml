@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.hcz.fastwidget.numberpicker.NumberPickerEditText
+        android:id="@+id/numberpicker_input"
+        style="@style/Holo.NumberPickerEditText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:gravity="center" />
+</merge>

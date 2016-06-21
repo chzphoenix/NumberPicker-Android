@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <attr name="numberPickerStyle" format="reference" />
+    <attr name="numberPickerDownButtonStyle" format="reference" />
+    <attr name="numberPickerInputTextStyle" format="reference" />
+    <attr name="numberPickerUpButtonStyle" format="reference" />
+
+
+    <declare-styleable name="NumberPicker">
+        <attr name="android:layout" />
+        <attr name="android:maxHeight" />
+        <attr name="android:maxWidth" />
+        <attr name="android:minHeight" />
+        <attr name="android:minWidth" />
+        <attr name="android:solidColor"/>
+        <attr name="android:textColor"/>
+        <attr name="android:textSize"/>
+        <attr name="numberpickerDivider" format="reference"/>
+        <attr name="numberpickerDividerHeight" format="dimension"/>
+        <attr name="numberpickerRows" format="integer"/>
+        <attr name="numberpickerEditable" format="boolean"/>
+    </declare-styleable>
+
+
+
+
+</resources>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Holo.Base.Theme" parent="Theme.AppCompat">
+        <item name="numberPickerStyle">@style/Holo.NumberPicker</item>
+        <item name="android:itemTextAppearance">@style/TextAppearance.AppCompat.Title</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:textColorPrimaryInverse">@android:color/white</item>
+        <item name="colorPrimary">@color/background_floating_material_dark</item>
+        <item name="colorPrimaryDark">@color/background_material_light</item>
+        <item name="android:background">@color/background_material_dark</item>
+    </style>
+
+    <style name="Holo" parent="Holo.Base.Theme" />
+
+    <style name="Holo.NumberPicker">
+        <item name="android:fadingEdge">vertical</item>
+        <item name="android:fadingEdgeLength">50dip</item>
+        <item name="android:layout">@layout/number_picker_with_selector_wheel</item>
+        <item name="android:maxHeight">180dip</item>
+        <item name="android:minWidth">64dip</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:solidColor">@android:color/transparent</item>
+        <item name="numberpickerDivider">@drawable/number_picker_divider</item>
+        <item name="numberpickerDividerHeight">2dip</item>
+    </style>
+
+    <style name="Holo.NumberPickerEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:textColorPrimaryInverse">@android:color/white</item>
+    </style>
+
+
+
+
+</resources>
