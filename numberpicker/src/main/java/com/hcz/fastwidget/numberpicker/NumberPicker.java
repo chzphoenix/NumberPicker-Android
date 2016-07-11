@@ -17,6 +17,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.NumberKeyListener;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -987,7 +988,9 @@ public class NumberPicker extends LinearLayout {
             return;
         }
         mCurrentScrollOffset += y;
-        while (mCurrentScrollOffset - mInitialScrollOffset > mSelectorTextGapHeight) {
+        //while (mCurrentScrollOffset - mInitialScrollOffset > mSelectorTextGapHeight) {
+        //上面的代码为google原代码，算法有问题，改为下面的代码，具体原因见方法末尾注释1
+        while (mCurrentScrollOffset > mSelectorElementHeight + mInitialScrollOffset - 10) {
             mCurrentScrollOffset -= mSelectorElementHeight;
             decrementSelectorIndices(selectorIndices);
             setValueInternal(
@@ -998,7 +1001,9 @@ public class NumberPicker extends LinearLayout {
                 mCurrentScrollOffset = mInitialScrollOffset;
             }
         }
-        while (mCurrentScrollOffset - mInitialScrollOffset < -mSelectorTextGapHeight) {
+        //while (mCurrentScrollOffset - mInitialScrollOffset < -mSelectorTextGapHeight) {
+        //上面的代码为google原代码，算法有问题，改为下面的代码，具体原因见方法末尾注释1
+        while (mCurrentScrollOffset < 10) {
             mCurrentScrollOffset += mSelectorElementHeight;
             incrementSelectorIndices(selectorIndices);
             setValueInternal(
@@ -1009,6 +1014,25 @@ public class NumberPicker extends LinearLayout {
                 mCurrentScrollOffset = mInitialScrollOffset;
             }
         }
+        /**
+         * 注释1：google原代码中selector_wheel_item_count是一个常量3，是不允许修改的，所以展示的只有3行。
+         * 这时取某个尺寸的屏幕。
+         * mInitialScrollOffset=118，mSelectorTextGapHeight=108，mSelectorElementHeight=180老代码计算上基本没有问题。
+         * 但是算法却存在问题，因为mInitialScrollOffset和mSelectorTextGapHeight根本不是有关联的，用这两个参数做计算完全有问题。
+         * 比如我们将selector_wheel_item_count改为5，
+         * 这时在这个尺寸的屏幕上mInitialScrollOffset=82，mSelectorTextGapHeight=36，mSelectorElementHeight=108
+         * 问题就出现了。当向上拉，即y为负值。mCurrentScrollOffset会逐渐减小。
+         * 当mCurrentScrollOffset<46时，就进入了第二个判断，这样当前位置就会上移一位，同时在mCurrentScrollOffset加上mSelectorElementHeight
+         * 这时是没有问题的，相当于改变中间位置重新计算了而已。
+         * 但是这只是滑动的瞬间，滑动还在继续。
+         * 下一次调用scrollBy时，mCurrentScrollOffset由于加上了mSelectorElementHeight，mCurrentScrollOffset数值接近154。
+         * 所以就进入了第一个判断，这样位置有下移以为，同时mCurrentScrollOffset减去了mSelectorElementHeight。
+         * 这样反复，就会看到一直在上下颤动而不滑动。
+         *
+         * 这俩个判断主要目的是在当中间位置基本滑动到其他位置时，更新中间位置并重新计算偏移。
+         * 但是从mInitialScrollOffset和mSelectorTextGapHeight根本无法判断是否接近滑动到其他位置。
+         * 新代码的判断就可以做到这一点。
+         */
     }
     @Override
     public void setEnabled(boolean enabled) {
